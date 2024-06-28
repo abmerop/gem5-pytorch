@@ -58,11 +58,6 @@ class CausalSelfAttention(nn.Module):
         q = q.view(B, T, self.n_head, C // self.n_head).transpose(1, 2) # (B, nh, T, hs)
         v = v.view(B, T, self.n_head, C // self.n_head).transpose(1, 2) # (B, nh, T, hs)
 
-        print(f"Moving q, k, v to GPU, flash = {self.flash}")
-        q = q.to('cuda')
-        k = k.to('cuda')
-        v = v.to('cuda')
-
         # causal self-attention; Self-attend: (B, nh, T, hs) x (B, nh, hs, T) -> (B, nh, T, T)
         if self.flash:
             # efficient attention using Flash Attention CUDA kernels
@@ -76,9 +71,6 @@ class CausalSelfAttention(nn.Module):
             y = att @ v # (B, nh, T, T) x (B, nh, T, hs) -> (B, nh, T, hs)
 
         y = y.transpose(1, 2).contiguous().view(B, T, C) # re-assemble all head outputs side by side
-
-        print("Moving y to CPU")
-        y = y.to('cpu')
 
         # output projection
         y = self.resid_dropout(self.c_proj(y))
