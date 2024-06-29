@@ -2,8 +2,17 @@
 
 The below commands assume you are in the base codespace directory: (i.e., /workspaces/gem5-bootcamp-env).  These can be copy and pasted into a bash terminal.
 
+Simple command to ensure PyTorch can see the GPU:
+
+/usr/local/bin/gem5-vega gem5/configs/example/gpufs/mi300.py --disk-image /tmp/x86-ubuntu-gpu-ml-isca --kernel ./vmlinux-gpu-ml-isca --no-kvm-perf --app gem5-pytorch/pytorch_test.py
+
+
 ## PyTorch MNIST example command:
 
+
+/usr/local/bin/gem5-vega gem5/configs/example/gpufs/mi300.py --disk-image /tmp/x86-ubuntu-gpu-ml-isca --kernel ./vmlinux-gpu-ml-isca --no-kvm-perf --app gem5-pytorch/MNIST/test_1batch/pytorch_qs_mnist.py
+
+/usr/local/bin/gem5-vega gem5/configs/example/gpufs/mi300.py --disk-image /tmp/x86-ubuntu-gpu-ml-isca --kernel ./vmlinux-gpu-ml-isca --no-kvm-perf --app gem5-pytorch/MNIST/train_1batch/pytorch_qs_mnist.py
 
 /usr/local/bin/gem5-vega gem5/configs/example/gpufs/mi300.py --disk-image /tmp/x86-ubuntu-gpu-ml-isca --kernel ./vmlinux-gpu-ml-isca --no-kvm-perf --app gem5-pytorch/MNIST/kvm-ff/pytorch_qs_mnist.py
 
