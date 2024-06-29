@@ -4,40 +4,53 @@ The below commands assume you are in the base codespace directory: (i.e., /works
 
 Simple command to ensure PyTorch can see the GPU:
 
+sh```
 /usr/local/bin/gem5-vega gem5/configs/example/gpufs/mi300.py --disk-image /tmp/x86-ubuntu-gpu-ml-isca --kernel ./vmlinux-gpu-ml-isca --no-kvm-perf --app gem5-pytorch/pytorch_test.py
+```
 
 
 ## PyTorch MNIST example command:
 
 
+sh```
 /usr/local/bin/gem5-vega gem5/configs/example/gpufs/mi300.py --disk-image /tmp/x86-ubuntu-gpu-ml-isca --kernel ./vmlinux-gpu-ml-isca --no-kvm-perf --app gem5-pytorch/MNIST/test_1batch/pytorch_qs_mnist.py
+```
 
+sh```
 /usr/local/bin/gem5-vega gem5/configs/example/gpufs/mi300.py --disk-image /tmp/x86-ubuntu-gpu-ml-isca --kernel ./vmlinux-gpu-ml-isca --no-kvm-perf --app gem5-pytorch/MNIST/train_1batch/pytorch_qs_mnist.py
+```
 
+sh```
 /usr/local/bin/gem5-vega gem5/configs/example/gpufs/mi300.py --disk-image /tmp/x86-ubuntu-gpu-ml-isca --kernel ./vmlinux-gpu-ml-isca --no-kvm-perf --app gem5-pytorch/MNIST/kvm-ff/pytorch_qs_mnist.py
+```
 
 
 
 ## Make the m5term util
 
 
+sh```
 pushd gem5/util/term ;  make ; popd
+```
 
 
 ## Mounting disk image command:
 
 
+sh```
 mkdir mnt
 mount -o loop,offset=$((2048*512)) /tmp/x86-ubuntu-gpu-ml-isca mnt
 
 cp -r gem5-pytorch/nanoGPT/nanoGPT-ff/ mnt/root/
 
 umount mnt
+```
 
 
 
 ## nanoGPT example command:
 
-build/VEGA_X86/gem5.opt -d tutorial_nanogpt --debug-flags=GPUCommandProc  configs/example/gpufs/mi300.py --disk-image gem5-resources/src/x86-ubuntu-gpu-ml/disk-image/x86-ubuntu-gpu-ml  --kernel gem5-resources/src/x86-ubuntu-gpu-ml/vmlinux-gpu-ml  --app gem5-pytorch/nanoGPT/train-ff.sh --skip-until-gpu-kernel=8 --exit-after-gpu-kernel=9
-
+sh```
+/usr/local/bin/gem5-vega --debug-flags=GPUCommandProc  gem5/configs/example/gpufs/mi300.py --disk-image /tmp/x86-ubuntu-gpu-ml-isca --kernel ./vmlinux-gpu-ml-isca --no-kvm-perf --app gem5-pytorch/nanoGPT/train-ff.sh --skip-until-gpu-kernel=8 --exit-after-gpu-kernel=9
+```
 
